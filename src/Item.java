@@ -19,40 +19,48 @@ public class Item {
     return newItens;
   }
 
-  public String[][] adicionarValorItem(String[] item, Scanner scan) {
-    String[][] newItensValor = new String[item.length][1];
-    String[] newItens = new String[item.length];
-    System.out.println("Adicione valor a qual item?");
-    newItens = preencherArray(item, newItens);
-    newItensValor = preencherMatriz(newItensValor, newItens);
+  public double[] adicionarValorItem(String[] itensCardapio, double[] valorItens, Scanner scan) {
+    double[] newValorItens = new double[itensCardapio.length];
+    String[] newItensCardapio = new String[itensCardapio.length];
+    boolean preencherValores = false;
 
-    for (int i = 0; i < newItens.length; i++) {
-      System.out.println((i + 1) + " - " + newItens[i]);
-    }
-    int opcao = scan.nextInt() - 1;
-    scan.nextLine();
+    preencherArrayDouble(valorItens, newValorItens);
+    preencherArray(itensCardapio, newItensCardapio);
 
-    System.out.println("Qual o valor para item " + newItensValor[opcao][0]);
-    newItensValor[opcao][0] = scan.nextLine();
+    while (!preencherValores) {
 
-    return newItensValor;
-  }
-
-  public String[][] preencherMatriz(String[][] itensValor, String[] itens) {
-    String[][] newItensValor = new String[itens.length][1];
-    for (int i = 0; i < itens.length; i++) {
-      newItensValor[i][0] = itens[i];
-    }
-    return newItensValor;
-  }
-
-  public void listarItens(String[][] itensValor) {
-    for (int i = 0; i < itensValor.length; i++) {
-      for (int j = 0; j < itensValor[i].length; j++) {
-        System.out.println(itensValor[i][j] + " ");
+      System.out.println("Qual o proximo item para adicionar o valor?");
+      for (int i = 0; i < newItensCardapio.length; i++) {
+        System.out.println((i + 1) + " - " + newItensCardapio[i]);
       }
+      int itemEscolha = scan.nextInt();
+      System.out.println("Digite um valor para o item: " + newItensCardapio[(itemEscolha - 1)]);
+      newValorItens[(itemEscolha - 1)] = scan.nextDouble();
+      scan.nextLine();//limpar buffer
+
+      System.out.println("Continuar adicionando valor?");
+      String opcaoEscolha = scan.nextLine();
+      preencherValores = opcaoEscolha.toUpperCase().equals("S") ? false : true;
+
+    }
+
+    return newValorItens;
+  }
+
+  private double[] preencherArrayDouble(double[] itens, double[] newItens) {
+    for (int i = 0; i < itens.length; i++) {
+      newItens[i] = itens[i];
+    }
+    return newItens;
+  }
+
+  public void listarItens(String[] itens, double[] itensValor) {
+    for (int i = 0; i < itens.length; i++) {
+      System.out.print(itens[i] + " ");
+      System.out.print(itensValor[i] + " ");
       System.out.println();
     }
+
   }
 
 }

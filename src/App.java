@@ -5,7 +5,7 @@ public class App {
         Scanner scan = new Scanner(System.in);
         Item item = new Item();
         String[] itens = new String[0];
-        String[][] itensValor = new String[itens.length][0];
+        double[] itensValor = new double[itens.length];
         boolean finalizar = false;
         do {
             System.out.printf("""
@@ -14,7 +14,7 @@ public class App {
                     1- Adicionar um item
                     2- Adicionar um valor item
                     3- Listar os itens
-                    4- Criar no pedido
+                    4- Criar novo pedido
                     5- Adicionar item no pedido
                     6- Mostrar valor total
                     0- Saida
@@ -29,12 +29,14 @@ public class App {
                     break;
                 }
                 case 2: {
-                    itensValor = item.preencherMatriz(itensValor, itens);
-                    itensValor = item.adicionarValorItem(itens, scan);
+                    itensValor = item.adicionarValorItem(itens, itensValor, scan);
                     break;
                 }
                 case 3: {
-                    item.listarItens(itensValor);
+                    itens = new String[] { "Ronakd", "NSdas" };
+                    // itensValor = new double[] { 21, 23 };
+                    item.listarItens(itens, itensValor);
+                    break;
                 }
                 case 0: {
                     finalizar = true;
