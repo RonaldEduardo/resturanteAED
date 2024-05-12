@@ -64,7 +64,16 @@ public class Item {
 
       System.out.println("Continuar adicionando valor? (S/N)");
       String opcaoEscolha = scan.nextLine();
-      preencherValores = !(opcaoEscolha.equalsIgnoreCase("S") || opcaoEscolha.equalsIgnoreCase("SIM"));
+      preencherValores = opcaoEscolha.equals("N") || opcaoEscolha.equals("S");
+
+      while (!preencherValores) {
+        System.out.println("Digite S/N");
+        opcaoEscolha = scan.nextLine().toUpperCase();
+        preencherValores = opcaoEscolha.equals("N") || opcaoEscolha.equals("S");
+      }
+
+      // Define a condição de parada baseada na entrada do usuário.
+      preencherValores = opcaoEscolha.equals("S") || opcaoEscolha.equals("SIM");
     }
 
     return novosValoresItens;
@@ -95,19 +104,22 @@ public class Item {
   }
 
   public void listarItens(String[] itens, double[] itensValor) {
-    if (itensValor.length >= 0) {
-      for (int i = 0; i < itens.length; i++) {
-        System.out.print(itens[i] + " ");
-        System.out.println();
-      }
-    } else {
-      for (int i = 0; i < itens.length; i++) {
-        System.out.print(itens[i] + " ");
-        System.out.print(itensValor[i] + " ");
-        System.out.println();
-      }
-    }
+    // Verifica se o array de valores está vazio ou se tem um tamanho diferente do
+    // array de itens
+    boolean exibirValores = itensValor.length == itens.length;
 
+    for (int i = 0; i < itens.length; i++) {
+      // Exibe o item
+      System.out.print(itens[i]);
+
+      // Se houver valores correspondentes, exibe-os ao lado de cada item
+      if (exibirValores) {
+        System.out.print(" - R$ " + itensValor[i]);
+      }
+
+      // Move para a próxima linha antes de continuar o loop
+      System.out.println();
+    }
   }
 
 }
