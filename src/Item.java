@@ -1,16 +1,20 @@
 import java.util.Scanner;
 
 public class Item {
+  /*
+   *
+   * AMANHA COLOQUE OS COMENTEARIO DE PARAMETROS
+   *
+   *
+   *
+   */
 
   public String[] adicionaItem(String[] itens, Scanner scan) {
     // Copia a lista de itens existente para uma nova lista.
     String[] novosItens = preencherArrayExpandir(itens, 0);
+    boolean adicionarItem = true;
 
-    // Flag para controle do loop. Enquanto for 'true', novos itens podem ser
-    // adicionados.
-    boolean adicionarMais = true;
-
-    while (adicionarMais) {
+    while (adicionarItem) {
       // Expande o array por um elemento a cada iteração.
       novosItens = preencherArrayExpandir(novosItens, 1);
 
@@ -18,19 +22,7 @@ public class Item {
       System.out.println("Qual o próximo item?");
       novosItens[novosItens.length - 1] = scan.nextLine();
 
-      // Pergunta ao usuário se deseja adicionar mais itens.
-      System.out.println("Deseja adicionar mais itens? (S/N)");
-      String escolhaUsuario = scan.nextLine().toUpperCase();
-      adicionarMais = escolhaUsuario.equals("N") || escolhaUsuario.equals("S");
-
-      while (!adicionarMais) {
-        System.out.println("Digite S/N");
-        escolhaUsuario = scan.nextLine().toUpperCase();
-        adicionarMais = escolhaUsuario.equals("N") || escolhaUsuario.equals("S");
-      }
-
-      // Define a condição de parada baseada na entrada do usuário.
-      adicionarMais = escolhaUsuario.equals("S") || escolhaUsuario.equals("SIM");
+      adicionarItem = adicionarMais(scan);
     }
     return novosItens;
   }
@@ -46,13 +38,18 @@ public class Item {
   public double[] adicionarValorItem(String[] itensCardapio, double[] valorItens, Scanner scan) {
     double[] novosValoresItens = new double[itensCardapio.length];
     String[] novosItensCardapio = new String[itensCardapio.length];
-    boolean preencherValores = false;
+    boolean preencherValores = true;
+
+    if (itensCardapio.length == 0) {
+        System.out.println("Não tem itens, favor adicione!!!");
+        return valorItens;
+    }
 
     // Utilizando métodos personalizados para copiar arrays
     copiarArrayDouble(valorItens, novosValoresItens);
     copiarArrayString(itensCardapio, novosItensCardapio);
 
-    while (!preencherValores) {
+    while (preencherValores) {
       System.out.println("Qual o próximo item para adicionar o valor?");
       for (int i = 0; i < novosItensCardapio.length; i++) {
         System.out.println((i + 1) + " - " + novosItensCardapio[i]);
@@ -62,21 +59,29 @@ public class Item {
       novosValoresItens[(escolhaItem - 1)] = scan.nextDouble();
       scan.nextLine(); // Limpar buffer
 
-      System.out.println("Continuar adicionando valor? (S/N)");
-      String opcaoEscolha = scan.nextLine();
-      preencherValores = opcaoEscolha.equals("N") || opcaoEscolha.equals("S");
-
-      while (!preencherValores) {
-        System.out.println("Digite S/N");
-        opcaoEscolha = scan.nextLine().toUpperCase();
-        preencherValores = opcaoEscolha.equals("N") || opcaoEscolha.equals("S");
-      }
-
-      // Define a condição de parada baseada na entrada do usuário.
-      preencherValores = opcaoEscolha.equals("S") || opcaoEscolha.equals("SIM");
+      preencherValores = adicionarMais(scan);
     }
 
     return novosValoresItens;
+  }
+
+  private boolean adicionarMais(Scanner scan) {
+    boolean adicionarMais;
+    System.out.println("Continuar adicionando? (S/N)");
+    String opcaoEscolha = scan.nextLine().toUpperCase();
+    adicionarMais = opcaoEscolha.equals("S") || opcaoEscolha.equals("N");
+
+    // Inicialmente, verificar se a entrada é válida (S ou N)
+    while (!adicionarMais) {
+      System.out.println("Entrada inválida. Digite 'S' para Sim ou 'N' para Não:");
+      opcaoEscolha = scan.nextLine().toUpperCase();
+      adicionarMais = opcaoEscolha.equals("S") || opcaoEscolha.equals("N");
+    }
+
+    // Define a condição de parada baseada na entrada do usuário.
+    adicionarMais = opcaoEscolha.equals("S");
+
+    return adicionarMais;
   }
 
   /**
