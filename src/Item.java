@@ -21,6 +21,13 @@ public class Item {
       // Pergunta ao usuário se deseja adicionar mais itens.
       System.out.println("Deseja adicionar mais itens? (S/N)");
       String escolhaUsuario = scan.nextLine().toUpperCase();
+      adicionarMais = escolhaUsuario.equals("N") || escolhaUsuario.equals("S");
+
+      while (!adicionarMais) {
+        System.out.println("Digite S/N");
+        escolhaUsuario = scan.nextLine().toUpperCase();
+        adicionarMais = escolhaUsuario.equals("N") || escolhaUsuario.equals("S");
+      }
 
       // Define a condição de parada baseada na entrada do usuário.
       adicionarMais = escolhaUsuario.equals("S") || escolhaUsuario.equals("SIM");
@@ -37,38 +44,54 @@ public class Item {
   }
 
   public double[] adicionarValorItem(String[] itensCardapio, double[] valorItens, Scanner scan) {
-    double[] newValorItens = new double[itensCardapio.length];
-    String[] newItensCardapio = new String[itensCardapio.length];
+    double[] novosValoresItens = new double[itensCardapio.length];
+    String[] novosItensCardapio = new String[itensCardapio.length];
     boolean preencherValores = false;
 
-    preencherArrayDouble(valorItens, newValorItens);
-    preencherArrayExpandir(itensCardapio, 0);
+    // Utilizando métodos personalizados para copiar arrays
+    copiarArrayDouble(valorItens, novosValoresItens);
+    copiarArrayString(itensCardapio, novosItensCardapio);
 
     while (!preencherValores) {
-
-      System.out.println("Qual o proximo item para adicionar o valor?");
-      for (int i = 0; i < newItensCardapio.length; i++) {
-        System.out.println((i + 1) + " - " + newItensCardapio[i]);
+      System.out.println("Qual o próximo item para adicionar o valor?");
+      for (int i = 0; i < novosItensCardapio.length; i++) {
+        System.out.println((i + 1) + " - " + novosItensCardapio[i]);
       }
-      int itemEscolha = scan.nextInt();
-      System.out.println("Digite um valor para o item: " + newItensCardapio[(itemEscolha - 1)]);
-      newValorItens[(itemEscolha - 1)] = scan.nextDouble();
-      scan.nextLine();//limpar buffer
+      int escolhaItem = scan.nextInt();
+      System.out.println("Digite um valor para o item: " + novosItensCardapio[(escolhaItem - 1)]);
+      novosValoresItens[(escolhaItem - 1)] = scan.nextDouble();
+      scan.nextLine(); // Limpar buffer
 
       System.out.println("Continuar adicionando valor? (S/N)");
       String opcaoEscolha = scan.nextLine();
-      preencherValores = opcaoEscolha.toUpperCase().equals("S") || opcaoEscolha.toUpperCase().equals("SIM") ? false : true;
-
+      preencherValores = !(opcaoEscolha.equalsIgnoreCase("S") || opcaoEscolha.equalsIgnoreCase("SIM"));
     }
 
-    return newValorItens;
+    return novosValoresItens;
   }
 
-  private double[] preencherArrayDouble(double[] itens, double[] newItens) {
-    for (int i = 0; i < itens.length; i++) {
-      newItens[i] = itens[i];
+  /**
+   * Copia um array de doubles para um novo array de mesmo tamanho.
+   *
+   * @param original O array de doubles original.
+   * @param copia    O array de doubles destino.
+   */
+  private void copiarArrayDouble(double[] original, double[] copia) {
+    for (int i = 0; i < original.length; i++) {
+      copia[i] = original[i];
     }
-    return newItens;
+  }
+
+  /**
+   * Copia um array de strings para um novo array de mesmo tamanho.
+   *
+   * @param original O array de strings original.
+   * @param copia    O array de strings destino.
+   */
+  private void copiarArrayString(String[] original, String[] copia) {
+    for (int i = 0; i < original.length; i++) {
+      copia[i] = original[i];
+    }
   }
 
   public void listarItens(String[] itens, double[] itensValor) {
@@ -77,7 +100,7 @@ public class Item {
         System.out.print(itens[i] + " ");
         System.out.println();
       }
-    }else{
+    } else {
       for (int i = 0; i < itens.length; i++) {
         System.out.print(itens[i] + " ");
         System.out.print(itensValor[i] + " ");
