@@ -8,6 +8,7 @@ public class App {
         String[] itens = new String[0];
         int[][] pedidos = new int[0][0];
         double[] itensValor = new double[itens.length];
+        double valorTotal;
         boolean finalizar = false;
         do {
             System.out.printf("""
@@ -35,10 +36,7 @@ public class App {
                     break;
                 }
                 case 3: {
-                   itens = new String[]{"Ronakd","NSdas"};
-                   itensValor = new double[] { 21, 23 };
                    item.listarItens(itens, itensValor);
-                   System.out.println(itens.length);
                    break;
                 }
                 case 4:{
@@ -47,6 +45,12 @@ public class App {
                 }
                 case 5:{
                     pedidos = pedido.adicionaItemPedido(pedidos,scan,itens);
+                    break;
+                }
+                case 6: {
+                    valorTotal = pedido.listarTotal(pedidos, scan, itensValor);
+                    System.out.println(valorTotal);
+                    break;
                 }
                 case 0: {
                     finalizar = true;
