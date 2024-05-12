@@ -1,38 +1,39 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Item {
 
   public String[] adicionaItem(String[] itens, Scanner scan) {
     // Copia a lista de itens existente para uma nova lista.
-    String[] novosItens = Arrays.copyOf(itens, itens.length);
+    String[] novosItens = preencherArrayExpandir(itens, 0);
 
-    // Flag para controle do loop. Enquanto for 'false', novos itens podem ser adicionados.
+    // Flag para controle do loop. Enquanto for 'true', novos itens podem ser
+    // adicionados.
     boolean adicionarMais = true;
 
     while (adicionarMais) {
-        // Cria um novo array com tamanho um maior que o anterior para adicionar novo item.
-        novosItens = Arrays.copyOf(novosItens, novosItens.length + 1);
+      // Expande o array por um elemento a cada iteração.
+      novosItens = preencherArrayExpandir(novosItens, 1);
 
-        // Pede ao usuário para inserir o próximo item.
-        System.out.println("Qual o próximo item?");
-        novosItens[novosItens.length - 1] = scan.nextLine();
+      // Pede ao usuário para inserir o próximo item.
+      System.out.println("Qual o próximo item?");
+      novosItens[novosItens.length - 1] = scan.nextLine();
 
-        // Pergunta ao usuário se deseja adicionar mais itens.
-        System.out.println("Deseja adicionar mais itens? (S/N)");
-        String escolhaUsuario = scan.nextLine().toUpperCase();
+      // Pergunta ao usuário se deseja adicionar mais itens.
+      System.out.println("Deseja adicionar mais itens? (S/N)");
+      String escolhaUsuario = scan.nextLine().toUpperCase();
 
-        // Define a condição de parada baseada na entrada do usuário.
-        adicionarMais = escolhaUsuario.equals("S") || escolhaUsuario.equals("SIM");
+      // Define a condição de parada baseada na entrada do usuário.
+      adicionarMais = escolhaUsuario.equals("S") || escolhaUsuario.equals("SIM");
     }
     return novosItens;
-}
+  }
 
-  private String[] preencherArray(String[] itens, String[] newItens) {
-    for (int i = 0; i < itens.length; i++) {
-      newItens[i] = itens[i];
+  private String[] preencherArrayExpandir(String[] original, int expandir) {
+    String[] novoArray = new String[original.length + expandir];
+    for (int i = 0; i < original.length; i++) {
+      novoArray[i] = original[i];
     }
-    return newItens;
+    return novoArray;
   }
 
   public double[] adicionarValorItem(String[] itensCardapio, double[] valorItens, Scanner scan) {
@@ -41,7 +42,7 @@ public class Item {
     boolean preencherValores = false;
 
     preencherArrayDouble(valorItens, newValorItens);
-    preencherArray(itensCardapio, newItensCardapio);
+    preencherArrayExpandir(itensCardapio, 0);
 
     while (!preencherValores) {
 
